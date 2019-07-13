@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnshu.studio.mapper.CommentsMapper">
+    <resultMap id="BaseResultMap" type="com.jnshu.studio.model.vo.CommentVO">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="works_id" jdbcType="BIGINT" property="worksId"/>
+        <result column="comments_id" jdbcType="BIGINT" property="commentsId"/>
+        <result column="text" jdbcType="VARCHAR" property="text"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, works_id, comments_id, text, status, create_at, update_at, create_by, update_by
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from comments
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jnshu.studio.model.Comments">
+    insert into comments (id, works_id, comments_id, 
+      text, status, create_at, 
+      update_at, create_by, update_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{worksId,jdbcType=BIGINT}, #{commentsId,jdbcType=BIGINT}, 
+      #{text,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createAt,jdbcType=BIGINT}, 
+      #{updateAt,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.jnshu.studio.model.Comments">
+        insert into comments
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="worksId != null">
+                works_id,
+            </if>
+            <if test="commentsId != null">
+                comments_id,
+            </if>
+            <if test="text != null">
+                text,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="worksId != null">
+                #{worksId,jdbcType=BIGINT},
+            </if>
+            <if test="commentsId != null">
+                #{commentsId,jdbcType=BIGINT},
+            </if>
+            <if test="text != null">
+                #{text,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jnshu.studio.model.Comments">
+        update comments
+        <set>
+            <if test="worksId != null">
+                works_id = #{worksId,jdbcType=BIGINT},
+            </if>
+            <if test="commentsId != null">
+                comments_id = #{commentsId,jdbcType=BIGINT},
+            </if>
+            <if test="text != null">
+                text = #{text,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jnshu.studio.model.Comments">
+    update comments
+    set works_id = #{worksId,jdbcType=BIGINT},
+      comments_id = #{commentsId,jdbcType=BIGINT},
+      text = #{text,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=BIGINT},
+      update_at = #{updateAt,jdbcType=BIGINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <!--查询留言-->
+    <select id="selectComments" parameterType="com.jnshu.studio.model.Comments" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from comments
+        <trim prefix="WHERE" prefixOverrides="AND|OR ">
+            <if test="id != null and id !=''">ID=#{id}</if>
+            <if test="worksId!= null">and works_id= #{worksId}</if>
+            <if test="text!= null and text!=''">and text= #{text}</if>
+            <if test="commentsId!= null ">and comments_id= #{commentsId}</if>
+            <if test="status!= null ">and status= #{status}</if>
+            <if test="createBy!=null and createBy !=''">and create_by = #{createBy}</if>
+            <if test="updateBy !=null and updateBy !=''">and update_by = #{updateBy}</if>
+            <if test="createAt !=null ">and create_at = #{createAt}</if>
+            <if test="updateAt !=null ">and update_at = #{updateAt}</if>
+        </trim>
+    </select>
+
+    <select id="selectCommentsWorks" parameterType="com.jnshu.studio.model.vo.CommentSearchVO" resultMap="BaseResultMap">
+        select
+        comments.id,
+        comments.works_id,
+        comments.comments_id,
+        comments.text,
+        comments.status,
+        comments.create_at,
+        comments.update_at,
+        comments.create_by,
+        comments.update_by,
+        works.title as workName
+        from
+        comments
+        left join
+        works
+        on
+        comments.works_id = works.id
+        <trim prefix="WHERE" prefixOverrides="AND|OR ">
+            <if test="commentsId!= null ">and comments.comments_id= #{commentsId}</if>
+            <if test="status!= null ">and comments.status= #{status}</if>
+            <if test="workName!= null and workName!=''">and works.title LIKE CONCAT('%',#{workName},'%')</if>
+        </trim>
+    </select>
+</mapper>

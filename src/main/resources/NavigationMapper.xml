@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnshu.studio.mapper.NavigationMapper">
+    <resultMap id="BaseResultMap" type="com.jnshu.studio.model.Navigation">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="father" jdbcType="INTEGER" property="father"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, grade, father, name, status, sort, create_at, update_at, create_by, update_by
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from navigation
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from navigation
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <!--增加一个导航-->
+    <insert id="insert" parameterType="com.jnshu.studio.model.Navigation">
+    insert into navigation (id, grade, father,
+      name, status,sort, create_at,
+      update_at, create_by, update_by
+      )
+    values (#{id,jdbcType=BIGINT}, #{grade,jdbcType=INTEGER}, #{father,jdbcType=BIGINT},
+      #{name,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{createAt,jdbcType=BIGINT},
+      #{updateAt,jdbcType=BIGINT}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.jnshu.studio.model.Navigation">
+        insert into navigation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="grade != null">
+                grade,
+            </if>
+            <if test="father != null">
+                Father,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="createAt != null">
+                create_at,
+            </if>
+            <if test="updateAt != null">
+                update_at,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="updateBy != null">
+                update_by,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="grade != null">
+                #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="father != null">
+                #{father,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createAt != null">
+                #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jnshu.studio.model.Navigation">
+        update navigation
+        <set>
+            <if test="grade != null">
+                grade = #{grade,jdbcType=INTEGER},
+            </if>
+            <if test="father != null">
+                Father = #{father,jdbcType=BIGINT},
+            </if>
+            <if test="name != null and id !=''" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                status = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null and id !=''">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null and id !=''">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jnshu.studio.model.Navigation">
+    update navigation
+    set grade = #{grade,jdbcType=INTEGER},
+      Father = #{father,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=BIGINT},
+      update_at = #{updateAt,jdbcType=BIGINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <select id="selectNavigationAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from navigation
+    </select>
+    <!--查询导航-->
+    <select id="selectNavigation" parameterType="com.jnshu.studio.model.Navigation" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from navigation
+        <trim prefix="WHERE" prefixOverrides="AND|OR ">
+            <if test="id != null and id !=''">id=#{id}</if>
+            <if test="grade != null ">and grade = #{grade}</if>
+            <if test="father != null and father !=''">and father = #{father}</if>
+            <if test="name != null and name !=''">and name LIKE CONCAT('%',#{name},'%')</if>
+            <if test="status != null and status !=''">and status = #{status}</if>
+            <if test="sort != null and sort !=''">and status = #{sort}</if>
+            <if test="createBy !=null and createBy !=''">and create_by = #{createBy}</if>
+            <if test="updateBy !=null and updateBy !=''">and update_by = #{updateBy}</if>
+            <if test="createAt !=null and createAt !=''">and create_at = #{createAt}</if>
+            <if test="updateAt !=null and updateAt !=''">and update_at = #{updateAt}</if>
+        </trim>
+    </select>
+</mapper>

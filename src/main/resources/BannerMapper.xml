@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jnshu.studio.mapper.BannerMapper">
+    <resultMap id="BaseResultMap" type="com.jnshu.studio.model.Banner">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="create_at" jdbcType="BIGINT" property="createAt"/>
+        <result column="update_at" jdbcType="BIGINT" property="updateAt"/>
+        <result column="create_by" jdbcType="VARCHAR" property="createBy"/>
+        <result column="update_by" jdbcType="VARCHAR" property="updateBy"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, url, image, status,sort,create_at, update_at, create_by, update_by
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from banner
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <!--按主键id删除-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from banner
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <insert id="insert" parameterType="com.jnshu.studio.model.Banner">
+    insert into banner (id, url, image, 
+      status,sort, create_at, update_at,
+      create_by, update_by)
+    values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER},#{sort,jdbcType=INTEGER}, #{createAt,jdbcType=BIGINT}, #{updateAt,jdbcType=BIGINT},
+      #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR})
+  </insert>
+    <!--动态增加-->
+    <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.jnshu.studio.model.Banner">
+        insert into banner
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="url != null">url,</if>
+            <if test="image != null">image,</if>
+            <if test="status != null">status,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createAt != null">create_at,</if>
+            <if test="updateAt != null">update_at,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id,jdbcType=BIGINT},</if>
+            <if test="url != null">#{url,jdbcType=VARCHAR},</if>
+            <if test="image != null">#{image,jdbcType=VARCHAR},</if>
+            <if test="status != null">#{status,jdbcType=INTEGER},</if>
+            <if test="sort != null">#{sort,jdbcType=INTEGER},</if>
+            <if test="createAt != null">#{createAt,jdbcType=BIGINT},</if>
+            <if test="updateAt != null">#{updateAt,jdbcType=BIGINT},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="updateBy != null">#{updateBy,jdbcType=VARCHAR},</if>
+        </trim>
+    </insert>
+    <!--动态更改-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.jnshu.studio.model.Banner">
+        update banner
+        <set>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="image != null">
+                image = #{image,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="createAt != null">
+                create_at = #{createAt,jdbcType=BIGINT},
+            </if>
+            <if test="updateAt != null">
+                update_at = #{updateAt,jdbcType=BIGINT},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jnshu.studio.model.Banner">
+    update banner
+    set url = #{url,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      create_at = #{createAt,jdbcType=BIGINT},
+      update_at = #{updateAt,jdbcType=BIGINT},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+    <!--Banner查询接口-->
+    <select id="selectBanner" parameterType="com.jnshu.studio.model.Banner" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from banner
+        <trim prefix="WHERE" prefixOverrides="AND|OR ">
+            <if test="id != null ">ID=#{id}</if>
+            <if test="url != null and url !=''">and url = #{url}</if>
+            <if test="image != null and image !=''">and image = #{image}</if>
+            <if test="status != null">and status = #{status}</if>
+            <if test="sort != null">and sort = #{sort}</if>
+            <if test="createBy !=null and createBy !=''">and create_by LIKE CONCAT('%',#{createBy},'%')</if>
+            <if test="updateBy !=null and updateBy !=''">and update_by = #{updateBy}</if>
+            <if test="createAt !=null ">and create_at = #{createAt}</if>
+            <if test="updateAt !=null ">and update_at = #{updateAt}</if>
+        </trim>
+    </select>
+</mapper>
